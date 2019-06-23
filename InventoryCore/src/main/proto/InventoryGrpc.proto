@@ -1,0 +1,38 @@
+
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.aiur.inventorygrpc";
+option java_outer_classname = "InventoryGrpcProto";
+option objc_class_prefix = "IGP";
+
+package inventorygrpc;
+
+service Test {
+	rpc TestRemoteCall (TestRequest) returns (TestReply) {}
+}
+
+
+message TestRequest {
+	string requestMessage = 1;
+}
+
+message TestReply {
+	string replyMessage = 1;
+}
+
+
+service InventoryAuxiliary {
+	rpc GetDatasourceConfiguration (InventoryAuxiliaryRequest) returns (InventoryAuxiliaryResponse)	{}
+}
+
+message InventoryAuxiliaryRequest {
+    bytes data = 1;
+}
+
+message InventoryAuxiliaryResponse {
+	int32 responseCode = 1;
+    bytes data = 2;
+}
+

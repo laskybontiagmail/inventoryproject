@@ -1,0 +1,537 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.aiur</groupId>
+  <artifactId>InventoryAuxiliary</artifactId>
+  <version>0.0.1</version>
+  <!-- <packaging>jar</packaging> -->
+  <packaging>war</packaging>
+  <url>http://maven.apache.org</url>
+  <name>Artanis Inventory Auxiliary Microservice WebApp (using Wildfly)</name>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <checkstyle.config.location>../config/checkstyle.xml</checkstyle.config.location>
+		
+		<!-- maven -->
+		<maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
+		<maven-war-plugin.version>2.1.1</maven-war-plugin.version> <!-- todo: try to update this version since this is from 2012 -->
+		<maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
+		<maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
+		<maven-pmd-plugin.version>3.7</maven-pmd-plugin.version>
+		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+		<maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
+		<lombok-maven-plugin.version>1.16.16.0</lombok-maven-plugin.version>
+		<maven-compiler-plugin-source.version>1.8</maven-compiler-plugin-source.version>
+		<maven-compiler-plugin-target.version>1.8</maven-compiler-plugin-target.version>
+		<apt-maven-plugin.version>1.1.3</apt-maven-plugin.version>
+		
+		<!-- open-ejb -->
+		<openejb-core.version>4.7.4</openejb-core.version>
+		
+		<!-- spring -->
+		<spring-framework-bom.version>4.2.5.RELEASE</spring-framework-bom.version>
+		<spring-framework-security-bom.version>4.1.3.RELEASE</spring-framework-security-bom.version>
+		<spring-framework-data-bom.version>Gosling-RELEASE</spring-framework-data-bom.version>
+		
+		<!-- commons -->
+		<commons-io.version>1.3.2</commons-io.version>
+		<commons-lang3.version>3.4</commons-lang3.version>
+		<commons-codec.version>1.9</commons-codec.version>
+		<commons-jexl3.version>3.0</commons-jexl3.version>
+		
+		<!-- servlet -->
+		<servlet-api.version>2.5</servlet-api.version>
+		
+		<!-- jackson -->
+		<jackson-core.version>2.6.1</jackson-core.version>
+		<jackson-databind.version>2.5.1</jackson-databind.version>
+		<jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
+		<jackson-annotations.version>2.6.7</jackson-annotations.version>
+		
+		<!-- jstl -->
+		<jstl.version>1.2</jstl.version>
+		
+		<!-- log4j2 -->
+		<log4j2.version>2.7</log4j2.version>
+		<slf4j-log4j12.version>1.7.21</slf4j-log4j12.version>
+		<slf4j-api.version>1.7.21</slf4j-api.version>
+		<!-- <log4j.version>1.2.17</log4j.version> -->
+				
+		<!-- widfly swarm -->
+		<wildfly.swarm.version>2017.3.3</wildfly.swarm.version>
+		
+		<!-- jboss/widlfly log manager -->
+		<jboss-logmanager.version>2.0.8.Final</jboss-logmanager.version>
+		
+		<!-- jboss dmr -->
+		<!-- <jboss-dmr.version>1.1.1.Final</jboss-dmr.version> -->
+		
+		<!-- hibernate -->
+		<hibernate.version>5.2.8.Final</hibernate.version>
+		<hibernate-hikaricp.version>5.2.8.Final</hibernate-hikaricp.version>
+		<hibernate-validator.version>5.2.5.Final</hibernate-validator.version>
+		
+		<!-- Hikari CP -->
+		<hikaricp.version>2.6.0</hikaricp.version>
+		
+		<!-- mysql -->
+		<mysql-connector-java.version>5.1.9</mysql-connector-java.version>
+		
+		<!-- postgres -->
+		<postgresql.version>9.4.1212</postgresql.version>
+		
+		<!-- query dsl -->
+		<querydsl-core.version>3.7.2</querydsl-core.version>
+		
+		<!-- lombok -->
+		<lombok.version>1.16.18</lombok.version>
+		
+		<!-- gRPC/proto-buff -->
+		<protobuf.version>3.2.0</protobuf.version>
+		<protoc-gen-grpc.version>1.0.3</protoc-gen-grpc.version>
+		<os-maven-plugin.version>1.5.0.Final</os-maven-plugin.version>
+		<protobuf-maven-plugin.version>0.5.0</protobuf-maven-plugin.version>
+		<grpc-spring.version>2.0.3</grpc-spring.version>
+		<proto-google-common-protos.version>0.1.9</proto-google-common-protos.version>
+		
+		<!-- junit -->
+		<junit.version>3.8.1</junit.version>
+  </properties>
+  
+  <dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>bom</artifactId>
+			<version>${wildfly.swarm.version}</version>
+			<scope>import</scope>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-framework-bom</artifactId>
+			<version>${spring-framework-bom.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-bom</artifactId>
+			<version>${spring-framework-security-bom.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-releasetrain</artifactId>
+			<version>${spring-framework-data-bom.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+	</dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+  	<!-- Hikari CP -->
+	<dependency>
+		<groupId>com.zaxxer</groupId>
+		<artifactId>HikariCP</artifactId>
+		<version>${hikaricp.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-hikaricp</artifactId>
+		<version>${hibernate-hikaricp.version}</version>
+	</dependency>
+	
+	<!-- hibernate -->
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+		<version>${hibernate.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>${hibernate.version}</version>
+	</dependency>
+	<dependency>
+   		<groupId>org.hibernate</groupId>
+   		<artifactId>hibernate-validator</artifactId>
+  			<version>${hibernate-validator.version}</version>
+	</dependency>
+	
+	<!-- mysql -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>${mysql-connector-java.version}</version>
+	</dependency>
+	
+	<!-- postgres -->
+	<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>${postgresql.version}</version>
+	</dependency>
+	
+	<!-- query dsl -->
+	<dependency>
+		<groupId>com.mysema.querydsl</groupId>
+		<artifactId>querydsl-apt</artifactId>
+		<version>${querydsl-core.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.mysema.querydsl</groupId>
+		<artifactId>querydsl-jpa</artifactId>
+		<version>${querydsl-core.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.mysema.querydsl</groupId>
+		<artifactId>querydsl-core</artifactId>
+		<version>${querydsl-core.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.mysema.querydsl</groupId>
+		<artifactId>querydsl-sql</artifactId>
+		<version>${querydsl-core.version}</version>
+	</dependency>
+	
+	<!-- jboss/widlfly log manager -->
+	<!--
+		needed since log4j alone won't work:
+		  WFLYLOG0078: The logging subsystem requires the log manager to be org.jboss.logmanager.LogManager.
+		  The subsystem has not be initialized and cannot be used.
+		  To use JBoss Log Manager you must add the system property "java.util.logging.manager" and set it to "org.jboss.logmanager.LogManager"
+	-->
+   	<dependency>
+    	<groupId>org.jboss.logmanager</groupId>
+    	<artifactId>jboss-logmanager</artifactId>
+    	<version>${jboss-logmanager.version}</version>
+    	<scope>runtime</scope>
+	</dependency>
+	
+	<!-- jboss dmr -->
+	<!-- <dependency>
+		<groupId>org.jboss</groupId>
+		<artifactId>jboss-dmr</artifactId>
+		<version>${jboss-dmr.version}</version>
+	</dependency> -->
+	
+	<!-- Wildfly Swarm Fractions -->
+	<dependency>
+		<groupId>org.wildfly.swarm</groupId>
+		<artifactId>undertow</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.wildfly.swarm</groupId>
+		<artifactId>jpa</artifactId>
+	</dependency>
+	
+	<!-- wildfly ejb -->
+	<dependency>
+		<groupId>org.wildfly.swarm</groupId>
+		<artifactId>ejb</artifactId>
+	</dependency>
+	
+	<!-- wildfly container for org.wildfly.swarm.Swarm (user provided main) -->
+	<dependency>
+    	<groupId>org.wildfly.swarm</groupId>
+    	<artifactId>container</artifactId>
+    	<!-- <version>${wildfly.swarm.version}</version> -->
+	</dependency>
+	
+	<!-- open-ejb -->
+	<!--
+		Disable open-ejb here since it causes this problem:
+		MSC000001: Failed to start service jboss.deployment.unit."11ee7c3e-168a-4f41-b146-359023e39499.war".PARSE:
+			org.jboss.msc.service.StartException in service jboss.deployment.unit."11ee7c3e-168a-4f41-b146-359023e39499.war".PARSE:
+			WFLYSRV0153: Failed to process phase PARSE of deployment "11ee7c3e-168a-4f41-b146-359023e39499.war"
+		
+		Caused by: java.lang.IllegalArgumentException:
+		WFLYEJB0059: Method AroundTimeout, on class org.apache.openejb.monitoring.StatsInterceptor,
+		annotated with @javax.interceptor.AroundTimeout must return Object type
+	-->
+	<!-- <dependency>
+		<groupId>org.apache.openejb</groupId>
+		<artifactId>openejb-core</artifactId>
+		<version>${openejb-core.version}</version>
+		<scope>test</scope>
+		<exclusions>
+			<exclusion>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency> -->
+	
+	<!-- log4j -->
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-api</artifactId>
+		<version>${log4j2.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-core</artifactId>
+		<version>${log4j2.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j-log4j12.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-slf4j-impl</artifactId>
+		<version>${log4j2.version}</version>
+	</dependency>
+	<!-- JUL (java utility logger) adapter -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-jul</artifactId>
+	    <version>${log4j2.version}</version>
+	</dependency>
+	<!-- <dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>${log4j.version}</version>
+    </dependency> -->
+	
+	<!-- jstl/servlet -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>${jstl.version}</version>
+	</dependency>
+	
+	<!-- commons -->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>${commons-io.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>${commons-lang3.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-jexl3</artifactId>
+		<version>${commons-jexl3.version}</version>
+	</dependency>
+	
+	<!-- spring -->
+	<!-- <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+	</dependency> -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+	</dependency>
+	<!-- <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+	</dependency> -->
+	<!-- <dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-config</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-core</artifactId>
+	</dependency> -->
+	<dependency>
+		<groupId>org.springframework.data</groupId>
+		<artifactId>spring-data-jpa</artifactId>
+
+	</dependency>
+	<!-- servlet -->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>servlet-api</artifactId>
+		<version>${servlet-api.version}</version>
+	</dependency>
+	
+	<!-- jackson -->
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-annotations</artifactId>
+		<version>${jackson-annotations.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-core</artifactId>
+		<version>${jackson-core.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>${jackson-databind.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>${jackson-mapper-asl.version}</version>
+	</dependency>
+	
+	<!-- lombok -->
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>${lombok.version}</version>
+	</dependency>
+	
+	<!-- gRPC/proto-buff -->
+	<dependency>
+		<groupId>io.grpc</groupId>
+		<artifactId>grpc-stub</artifactId>
+		<version>${protoc-gen-grpc.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>io.grpc</groupId>
+		<artifactId>grpc-protobuf</artifactId>
+		<version>${protoc-gen-grpc.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>io.grpc</groupId>
+		<artifactId>grpc-netty</artifactId>
+		<version>${protoc-gen-grpc.version}</version>
+	</dependency>
+	<dependency>
+   		<groupId>com.google.api.grpc</groupId>
+   		<artifactId>proto-google-common-protos</artifactId>
+   		<version>${proto-google-common-protos.version}</version>
+   	</dependency>
+	
+	<!-- InventoryCore -->
+	<dependency>
+		<groupId>com.aiur</groupId>
+		<artifactId>InventoryCore</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+		
+    <!-- junit -->
+	<dependency>
+		<groupId>junit</groupId>
+     	<artifactId>junit</artifactId>
+     	<version>${junit.version}</version>
+     	<scope>test</scope>
+   	</dependency>
+   	
+   	<!-- experimental -->
+   	<dependency>
+    	<groupId>org.wildfly.swarm</groupId>
+    	<artifactId>jaxrs</artifactId>
+    	<!-- <version>${wildfly.swarm.version}</version> -->
+	</dependency>
+	<dependency>
+      	<groupId>org.wildfly.swarm</groupId>
+     	<artifactId>cdi</artifactId>
+    </dependency>
+    <dependency>
+      	<groupId>org.wildfly.swarm</groupId>
+      	<artifactId>logging</artifactId>
+    </dependency>
+	
+  </dependencies>
+  
+  <build>
+	<!-- war file name here  -->
+	<finalName>${project.artifactId}</finalName>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>${maven-compiler-plugin.version}</version>
+			<configuration>
+				<source>${maven-compiler-plugin-source.version}</source>
+				<target>${maven-compiler-plugin-target.version}</target>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>${maven-war-plugin.version}</version>
+			<configuration>
+				<filteringDeploymentDescriptors>false</filteringDeploymentDescriptors>
+				<mainClass>com.aiur.EntryPoint</mainClass>
+			</configuration>
+		</plugin>
+		<!-- <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>${maven-jar-plugin.version}</version>
+			<configuration>
+				<filteringDeploymentDescriptors>false</filteringDeploymentDescriptors>
+				<mainClass>com.aiur.EntryPoint</mainClass>
+				<manifest>
+               		<addClasspath>true</addClasspath>
+               		<classpathPrefix>m2repo/</classpathPrefix>
+             	</manifest>
+			</configuration>
+		</plugin> -->
+		<plugin>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>wildfly-swarm-plugin</artifactId>
+			<version>${wildfly.swarm.version}</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>package</goal>
+					</goals>
+				</execution>
+			</executions>
+			<!-- <configuration>
+          		<bundleDependencies>true</bundleDependencies>
+        	</configuration> -->
+		</plugin>
+		<plugin>
+			<groupId>com.mysema.maven</groupId>
+			<artifactId>apt-maven-plugin</artifactId>
+			<version>${apt-maven-plugin.version}</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>process</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>target/generated-sources/java</outputDirectory>
+						<!--
+							Reference:
+							http://www.querydsl.com/static/querydsl/2.1.2/reference/html/ch02s02.html
+						-->
+						<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		
+		<!-- experimental -->
+<!-- 		<plugin>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>${maven-surefire-plugin.version}</version>
+			<configuration>
+			    <systemProperties>
+			        <property>
+			            <name>java.util.logging.manager</name>
+			            <value>org.jboss.logmanager.LogManager</value>
+			        </property>
+			    </systemProperties>
+			</configuration>
+		</plugin> -->
+	</plugins>
+	</build>
+</project>

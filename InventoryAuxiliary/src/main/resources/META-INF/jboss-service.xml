@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server xmlns="urn:jboss:service:7.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:jboss:service:7.0 jboss-service_7_0.xsd">
+      <!-- <mbean code="com.xmdevelopments.service.DaemonService" name="sphere.daemonService:service=DaemonServiceMBean"> -->
+    <mbean code="com.aiur.service.Test" name="test.testing:service=TestMBean">
+         <attribute name="Message">JBoss</attribute>
+    </mbean>
+</server>

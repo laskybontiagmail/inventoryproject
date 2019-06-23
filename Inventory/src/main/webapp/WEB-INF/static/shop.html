@@ -1,0 +1,64 @@
+<html ng-app="shoppingCartApp" ng-cloak>
+	<head>
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script> -->
+		<link rel = "stylesheet"
+         	href = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js"></script>
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-aria.min.js"></script>
+         <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-messages.min.js"></script>
+         
+         <script src = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+		
+		<title>Artanis' Inventory</title>
+	</head>
+	
+	<body>
+		<h2>Artanis' Inventory</h2>
+		<br />
+		<div id="groceryList" ng-controller="shoppingCartController">
+			<h3>Currently available in our shop</h3>
+			
+			<table>
+				<tr>
+					<td>Product Name</td><td></td><td><td></td></td><td>Brand</td><td></td><td></td><td>Price</td><td></td><td></td><td></td><td></td><td>Quantity Available</td>
+				</tr>
+				<tr ng-repeat-start="product in products" />
+				<tr>
+					<td>{{product.name}}</td><td></td><td></td><td></td><td>{{product.brand}}</td><td></td><td></td><td>$ {{product.price}}</td><td></td><td></td><td></td><td></td><td>{{product.quantityOnHand}}</td>
+				</tr>
+				<tr ng-repeat-end />
+				</tr>
+			</table>
+			
+			<br />
+			<br />
+			Your Shopping:
+			<br />
+  			
+  			<table>
+				<tr ng-repeat-start="boughtItem in boughtItems" />
+				<tr>
+					<td><label>{{boughtItem.name}}</label></td><td><input type="text" ng-model="boughtItem.quantity" value='' /></td>
+					<td ng-show="$last"></td>
+					<td ng-show="$last"></td>
+					<td ng-show="$last"></td>
+					<td ng-show="$last"></td>
+					<td ng-show="$last"><button style="font-size:15px;"  ng-click="doPurchase($event)">Buy</button></td>
+				</tr>
+				<tr ng-repeat-end />
+				</tr>
+			</table>
+			
+            <!-- <md-button class = "md-primary md-raised" ng-click = "showPurchaseSummary($event)"></md-button> -->
+		</div>
+		
+		<p>
+			<br/>
+			<br/>
+			<br/>by: Artanis Zeratul
+		</p>
+	</body>
+	
+	<script src="js/shoppingCart.js"></script>
+</html>

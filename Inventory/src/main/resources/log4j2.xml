@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<!-- <Socket name="logstash" host="localhost" port="7000"> <SerializedLayout 
+			/> </Socket> <Async name="asyncLogstash"> <AppenderRef ref="logstash" /> 
+			</Async> -->
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%logger{36} : %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="info">
+			<!-- AppenderRef ref="asyncLogstash" / -->
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
