@@ -46,7 +46,7 @@
 	
 		<!-- jackson -->
 		<jackson-core.version>2.6.1</jackson-core.version>
-		<jackson-databind.version>2.5.1</jackson-databind.version>
+		<jackson-databind.version>2.9.10.3</jackson-databind.version>
 		<jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
 		<jackson-annotations.version>2.6.7</jackson-annotations.version>
 	
