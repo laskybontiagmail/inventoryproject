@@ -73,7 +73,7 @@
 		<hikaricp.version>2.6.0</hikaricp.version>
 		
 		<!-- mysql -->
-		<mysql-connector-java.version>5.1.9</mysql-connector-java.version>
+		<mysql-connector-java.version>8.0.16</mysql-connector-java.version>
 		
 		<!-- query dsl -->
 		<querydsl-core.version>3.7.2</querydsl-core.version>
