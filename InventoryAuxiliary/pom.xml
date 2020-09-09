@@ -71,7 +71,7 @@
 		<!-- hibernate -->
 		<hibernate.version>5.2.8.Final</hibernate.version>
 		<hibernate-hikaricp.version>5.2.8.Final</hibernate-hikaricp.version>
-		<hibernate-validator.version>5.2.5.Final</hibernate-validator.version>
+		<hibernate-validator.version>5.3.6.Final</hibernate-validator.version>
 		
 		<!-- Hikari CP -->
 		<hikaricp.version>2.6.0</hikaricp.version>
