@@ -77,7 +77,7 @@
 		<mysql-connector-java.version>5.1.9</mysql-connector-java.version>
 		
 		<!-- postgres -->
-		<postgresql.version>9.4.1212</postgresql.version>
+		<postgresql.version>42.3.7</postgresql.version>
 	
 		<!-- query dsl -->
 		<querydsl-core.version>3.7.2</querydsl-core.version>
